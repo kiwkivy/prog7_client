@@ -11,4 +11,8 @@ public class Show extends Command{
 
     public Show() {
     }
+
+    public CommandType getCommandType() {
+        return commandType;
+    }
 }

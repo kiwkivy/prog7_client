@@ -9,4 +9,8 @@ import storage.Storage;
 
 public class Info extends Command{
     private CommandType commandType = CommandType.INFO;
+
+    public CommandType getCommandType() {
+        return commandType;
+    }
 }

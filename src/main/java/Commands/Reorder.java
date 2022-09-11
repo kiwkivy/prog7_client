@@ -9,6 +9,7 @@ import storage.Storage;
 public class Reorder extends Command {
     private CommandType commandType = CommandType.REORDER;
 
-    public Reorder() {
+    public CommandType getCommandType() {
+        return commandType;
     }
 }

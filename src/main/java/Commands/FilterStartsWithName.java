@@ -1,5 +1,6 @@
 package Commands;
 
+import data.CreatorOfDragons;
 import storage.DragonVectorStorage;
 import storage.Storage;
 
@@ -11,7 +12,17 @@ public class FilterStartsWithName extends Command {
     private String name;
     private CommandType commandType = CommandType.FILTER_STARTS_WITH_NAME;
 
-    public FilterStartsWithName(String name) {
-        this.name = name;
+    public FilterStartsWithName(){}
+
+    public CommandType getCommandType() {
+        return commandType;
+    }
+
+    @Override
+    public boolean validate(String[] commandParts){
+        if (commandParts.length == 2) {
+            name = commandParts[1];
+            return true;
+        }else{return false;}
     }
 }

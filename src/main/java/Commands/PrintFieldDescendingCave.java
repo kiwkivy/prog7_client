@@ -9,6 +9,7 @@ import data.Dragon;
 public class PrintFieldDescendingCave extends Command {
     private CommandType commandType = CommandType.PRINT_FIELD_DESCENDING_CAVE;
 
-    public PrintFieldDescendingCave() {
+    public CommandType getCommandType() {
+        return commandType;
     }
 }

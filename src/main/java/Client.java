@@ -9,6 +9,7 @@ import data.Color;
 import serializers.CaveSerializer;
 import serializers.CoordinatesSerializer;
 import serializers.DragonSerializer;
+import utils.Interpreter;
 
 import javax.xml.crypto.Data;
 import java.awt.*;
@@ -24,19 +25,31 @@ import java.nio.charset.StandardCharsets;
 public class Client {
     public static void main(String[] args){
         try {
-
-            DatagramChannel reciverChannel = DatagramChannel.open();
-            InetSocketAddress reciverSocketAdress = new InetSocketAddress("localhost", 1111);
-            reciverChannel.bind(reciverSocketAdress);
-            Thread reciverThread = new Thread(()->{
+            Help help = new Help();
+            Interpreter interpreter = new Interpreter();
+            DatagramChannel sendChannel = DatagramChannel.open();
+            InetSocketAddress sendSocketAddress = new InetSocketAddress("localhost", 1111);
+            sendChannel.bind(sendSocketAddress);
+            Thread sendThread = new Thread(()->{
                 while (true){
-                    receiveMessage(reciverChannel);
+                    Command command = interpreter.getCommand();
+                    if (command!= null) {
+                        sendMessage(sendChannel, command);
+                    }else{System.out.println("Команда введена неверно. Для получения справки введите help");}
+                }
+            });
+            sendThread.run();
+
+            DatagramChannel receiveChannel = DatagramChannel.open();
+            InetSocketAddress receiveSocketAddress = new InetSocketAddress("localhost", 2222);
+            receiveChannel.bind(receiveSocketAddress);
+            Thread receiveThread = new Thread(()->{
+                while (true){
+                    receiveMessage(receiveChannel);
                 }
             });
 
-            DatagramChannel datagramChannel = DatagramChannel.open();
-            InetSocketAddress inetSocketAddress = new InetSocketAddress("localhost", 4357);
-            datagramChannel.bind(inetSocketAddress);
+
 
             Coordinates coordinates = new Coordinates();
             coordinates.setX(2314L);
@@ -46,11 +59,9 @@ public class Client {
             cave.setNumberOfTreasures(3453D);
             Dragon dragon = new Dragon("Рогалик", coordinates, 5464, Color.GREEN, DragonType.FIRE, DragonCharacter.CHAOTIC_EVIL, cave);
 
-            //receiveMessage(datagramChannel);
-            Help help = new Help();
             Add add = new Add(dragon);
-            sendMessage(datagramChannel, add);
-            reciverThread.run();
+            //sendMessage(sendChannel, add);
+            receiveThread.run();
 
         }catch (IOException ex){
             System.out.println("Сокет наебнулся");
