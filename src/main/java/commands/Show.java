@@ -1,6 +1,4 @@
-package Commands;
-
-import storage.Storage;
+package commands;
 
 /**
  * Команда show : вывести в стандартный поток вывода все элементы коллекции в строковом представлении.

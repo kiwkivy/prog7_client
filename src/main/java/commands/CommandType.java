@@ -1,4 +1,4 @@
-package Commands;
+package commands;
 
 public enum CommandType {
     ADD("add"),
@@ -14,10 +14,8 @@ public enum CommandType {
     REMOVE_BY_ID("remove_by_id"),
     REMOVE_LOWER("remove_lower"),
     REORDER("reorder"),
-    SAVE("save"),
     SHOW("show"),
     UPDATE("update");
-
 
 
     private String name;

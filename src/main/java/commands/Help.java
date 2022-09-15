@@ -1,4 +1,4 @@
-package Commands;
+package commands;
 
 /**
  * Комманда help : вывести справку по доступным командам.

@@ -1,6 +1,4 @@
-package Commands;
-
-import storage.Storage;
+package commands;
 
 /**
  * Команда info : вывести в стандартный поток вывода информацию о коллекции

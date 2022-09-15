@@ -1,20 +1,17 @@
-package Commands;
+package commands;
 
 import data.Checker;
-import storage.Storage;
 
 /**
- * Команда remove_lower id : удалить из коллекции все элементы, меньшие, чем заданный.
+ * Команда remove_by_id id : удалить элемент из коллекции по его id.
  */
 
-public class RemoveLower extends Command{
-    private int id;
-    private CommandType commandType = CommandType.REMOVE_LOWER;
+public class RemoveById extends Command {
+    int id;
+    private CommandType commandType = CommandType.REMOVE_BY_ID;
 
-    public RemoveLower(int id) {
-        this.id = id;
+    public RemoveById() {
     }
-    public RemoveLower(){}
 
     public CommandType getCommandType() {
         return commandType;

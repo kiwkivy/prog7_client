@@ -1,10 +1,4 @@
-package Commands;
-
-import data.Dragon;
-import storage.DragonVectorStorage;
-import storage.Storage;
-
-import java.util.Collection;
+package commands;
 
 /**
  * Родительский класс для команд.

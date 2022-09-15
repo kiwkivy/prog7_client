@@ -1,6 +1,4 @@
-package Commands;
-
-import data.Dragon;
+package commands;
 
 /**
  * Команда print_field_descending_cave : вывести значения поля cave всех элементов в порядке убывания.

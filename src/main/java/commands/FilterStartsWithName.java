@@ -1,8 +1,4 @@
-package Commands;
-
-import data.CreatorOfDragons;
-import storage.DragonVectorStorage;
-import storage.Storage;
+package commands;
 
 /**
  * Команда filter_starts_with_name name : вывести элементы, значение поля name которых начинается с заданной подстроки.
@@ -23,6 +19,7 @@ public class FilterStartsWithName extends Command {
         if (commandParts.length == 2) {
             name = commandParts[1];
             return true;
-        }else{return false;}
+        }else{
+            return false;}
     }
 }

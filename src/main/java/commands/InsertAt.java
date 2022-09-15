@@ -1,10 +1,7 @@
-package Commands;
+package commands;
 
-import data.Checker;
 import data.CreatorOfDragons;
 import data.Dragon;
-import storage.Storage;
-import utils.Interpreter;
 
 /**
  * Команда insert_at index name age : добавить новый элемент в заданную позицию.

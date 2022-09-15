@@ -1,13 +1,11 @@
 package utils;
 
-import Commands.*;
+import commands.*;
 import com.google.gson.JsonIOException;
 import data.Dragon;
-import storage.DragonVectorStorage;
 
 import java.io.File;
 import java.io.FileNotFoundException;
-import java.sql.PreparedStatement;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
@@ -61,6 +59,10 @@ public class Interpreter {
                 if (message.equals(command.getCommandType().getName())) {
                     command.getCommandType();
                     if(command.validate(commandParts)) {
+                        if(command.getCommandType() == CommandType.EXIT){
+                            Exit exit = new Exit();
+                            exit.execute();
+                        }
                         return command;
                     }else{
                         return null;
@@ -97,6 +99,7 @@ public class Interpreter {
         listOfCommands.add(new Reorder());
         listOfCommands.add(new Show());
         listOfCommands.add(new Update());
+        listOfCommands.add(new Exit());
     }
 
 }

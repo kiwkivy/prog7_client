@@ -1,4 +1,4 @@
-package Commands;
+package commands;
 
 /**
  * Команда clear : очистить коллекцию.

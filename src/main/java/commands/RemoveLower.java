@@ -1,20 +1,19 @@
-package Commands;
+package commands;
 
 import data.Checker;
-import data.CreatorOfDragons;
-import storage.Storage;
-import sun.security.util.Resources_ko;
 
 /**
- * Команда remove_by_id id : удалить элемент из коллекции по его id.
+ * Команда remove_lower id : удалить из коллекции все элементы, меньшие, чем заданный.
  */
 
-public class RemoveById extends Command {
-    int id;
-    private CommandType commandType = CommandType.REMOVE_BY_ID;
+public class RemoveLower extends Command{
+    private int id;
+    private CommandType commandType = CommandType.REMOVE_LOWER;
 
-    public RemoveById() {
+    public RemoveLower(int id) {
+        this.id = id;
     }
+    public RemoveLower(){}
 
     public CommandType getCommandType() {
         return commandType;

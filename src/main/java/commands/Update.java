@@ -1,7 +1,8 @@
-package Commands;
+package commands;
 
 import data.Checker;
-import storage.Storage;
+import data.CreatorOfDragons;
+import data.Dragon;
 
 /**
  * Команда update id name age : обновить значение элемента коллекции, id которого равен заданному.
@@ -10,6 +11,7 @@ import storage.Storage;
 public class Update extends Command {
     private int id;
     private CommandType commandType = CommandType.UPDATE;
+    private Dragon dragon;
 
     public Update(){}
 
@@ -21,6 +23,7 @@ public class Update extends Command {
     public boolean validate(String[] commandParts) {
         if (commandParts.length == 2 && Checker.checkIntUpZero(commandParts[1])) {
             id = Integer.parseInt(commandParts[1]);
+            dragon = CreatorOfDragons.create();
             return true;
         } else {
             return false;

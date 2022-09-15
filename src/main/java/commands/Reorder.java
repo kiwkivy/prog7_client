@@ -1,6 +1,4 @@
-package Commands;
-
-import storage.Storage;
+package commands;
 
 /**
  * Команда reorder : отсортировать коллекцию в порядке, обратном нынешнему.
