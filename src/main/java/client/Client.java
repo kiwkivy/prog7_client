@@ -109,7 +109,7 @@ public class Client {
                 sendTimeFlag = false;
                 System.out.println(message.replace("\\n", "\n").replace("={", "(").replace("},", ")").replace("\"","")
                         .replace("{","").replace("}", ""));
-                if (message.equals("\"Скрипт выполнен.\"")){
+                if (message.equals("\"Возврат в обычный режим.\"")){
                     System.out.println();
                     workWithScript = false;
                 }
@@ -120,7 +120,7 @@ public class Client {
 
     public static void sendMessage(DatagramChannel channel, String message){
         try {
-            channel.send(StandardCharsets.UTF_8.newEncoder().encode(CharBuffer.wrap(message)), new InetSocketAddress("localhost", 1111));
+            channel.send(StandardCharsets.UTF_8.newEncoder().encode(CharBuffer.wrap(message)), new InetSocketAddress("localhost", 3333));
             sendTime = new Date().getTime();
             sendTimeFlag = true;
         }catch (IOException ex) {
@@ -143,13 +143,4 @@ public class Client {
             sendTime = Math.min(sendTime, new Date().getTime());
 
     }
-
-    private static boolean available(int port) {
-        try (Socket ignored = new Socket("localhost", port)) {
-            return false;
-        } catch (IOException ignored) {
-            return true;
-        }
-    }
-
 }
