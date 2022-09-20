@@ -28,16 +28,16 @@ public class Client {
     public static long sendTime;
     public static boolean sendTimeFlag;
     private static boolean workWithScript = false;
+    public static int port = 2111;
 
     public static void main(String[] args){
-
         Thread checkTime = new Thread(() -> {
             Timer timer = new Timer();
             timer.schedule(new TimerTask() {
                 @Override
                 public void run() {
                     try {
-                        if (new Date().getTime() - sendTime > 10000 && sendTimeFlag && sendTime != -1) {
+                        if (new Date().getTime() - sendTime > 1000 && sendTimeFlag && sendTime != -1) {
                             sendTimeFlag = false;
                             sendTime = -1;
                             throw new ServerIsUnavailableException();
@@ -59,13 +59,20 @@ public class Client {
             Interpreter interpreter = new Interpreter();
             DatagramChannel sendChannel = DatagramChannel.open();
             DatagramChannel receiveChannel = DatagramChannel.open();
-            InetSocketAddress receiveSocketAddress = new InetSocketAddress("localhost", 2222);
-            receiveChannel.bind(receiveSocketAddress);
+            boolean bindFlag = true;
+            while (bindFlag)
+                try {
+                    InetSocketAddress receiveSocketAddress = new InetSocketAddress("localhost", port);
+                    receiveChannel.bind(receiveSocketAddress);
+                    bindFlag = false;
+                } catch (BindException ex){
+                    port++;
+                }
 
             while (true) {
                 Command command = interpreter.getCommand();
-
                 if (command != null) {
+                    command.setPort(port);
                     sendMessage(sendChannel, command);
                     if(command.getCommandType() == CommandType.EXECUTE_SCRIPT){
                         workWithScript = true;
@@ -135,6 +142,14 @@ public class Client {
         else
             sendTime = Math.min(sendTime, new Date().getTime());
 
+    }
+
+    private static boolean available(int port) {
+        try (Socket ignored = new Socket("localhost", port)) {
+            return false;
+        } catch (IOException ignored) {
+            return true;
+        }
     }
 
 }

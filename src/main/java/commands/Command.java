@@ -5,7 +5,7 @@ package commands;
  */
 
 public abstract class Command{
-
+    private int port;
     public Command(){
     }
 
@@ -15,5 +15,9 @@ public abstract class Command{
         if (commandParts.length == 1) {
             return true;
         }else{return false;}
+    }
+
+    public void setPort(int port) {
+        this.port = port;
     }
 }
