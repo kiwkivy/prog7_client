@@ -1,5 +1,7 @@
 package commands;
 
+import client.Client;
+import com.sun.org.apache.bcel.internal.generic.InstructionConstants;
 import utils.Interpreter;
 
 import java.io.File;
