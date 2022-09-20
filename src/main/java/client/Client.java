@@ -28,7 +28,7 @@ public class Client {
     public static long sendTime;
     public static boolean sendTimeFlag;
     private static boolean workWithScript = false;
-    public static int port = 2111;
+    public static int port = 4111;
 
     public static void main(String[] args){
         Thread checkTime = new Thread(() -> {
@@ -120,7 +120,7 @@ public class Client {
 
     public static void sendMessage(DatagramChannel channel, String message){
         try {
-            channel.send(StandardCharsets.UTF_8.newEncoder().encode(CharBuffer.wrap(message)), new InetSocketAddress("localhost", 3333));
+            channel.send(StandardCharsets.UTF_8.newEncoder().encode(CharBuffer.wrap(message)), new InetSocketAddress("localhost", 3321));
             sendTime = new Date().getTime();
             sendTimeFlag = true;
         }catch (IOException ex) {
