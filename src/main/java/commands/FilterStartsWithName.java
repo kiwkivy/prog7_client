@@ -8,6 +8,7 @@ public class FilterStartsWithName extends Command {
     private String name;
     private CommandType commandType = CommandType.FILTER_STARTS_WITH_NAME;
 
+
     public FilterStartsWithName(){}
 
     public CommandType getCommandType() {

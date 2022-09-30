@@ -11,6 +11,7 @@ public class CountByColor extends Command {
     private CommandType commandType = CommandType.COUNT_BY_COLOR;
     private Color color;
 
+
     public CountByColor() {
     }
 

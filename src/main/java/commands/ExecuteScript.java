@@ -1,11 +1,5 @@
 package commands;
 
-import client.Client;
-import com.sun.org.apache.bcel.internal.generic.InstructionConstants;
-import utils.Interpreter;
-
-import java.io.File;
-
 /**
  * Команда execute_script file_name : считать и исполнить скрипт из указанного файла.
  * В скрипте содержатся команды в таком же виде, в котором их вводит пользователь в интерактивном режиме.
@@ -13,6 +7,7 @@ import java.io.File;
 public class ExecuteScript extends Command {
     private String fileName;
     private CommandType commandType = CommandType.EXECUTE_SCRIPT;
+
 
     public ExecuteScript() {
     }

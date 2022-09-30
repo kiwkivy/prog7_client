@@ -1,7 +1,7 @@
 package exceptions;
 
 /**
- * Выбрасывается при попытки добавить в коллекцию некорректный элемент.
+ * Выбрасывается при попытке добавить в коллекцию некорректный элемент.
  */
 public class ElementNotValidException extends Exception {
 

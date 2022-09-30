@@ -1,18 +1,16 @@
 package commands;
 
-import data.Checker;
+import data.CreatorOfDragons;
+import data.Dragon;
 
 /**
  * Команда remove_lower id : удалить из коллекции все элементы, меньшие, чем заданный.
  */
 
 public class RemoveLower extends Command{
-    private int id;
+    private Dragon dragon;
     private CommandType commandType = CommandType.REMOVE_LOWER;
 
-    public RemoveLower(int id) {
-        this.id = id;
-    }
     public RemoveLower(){}
 
     public CommandType getCommandType() {
@@ -21,11 +19,9 @@ public class RemoveLower extends Command{
 
     @Override
     public boolean validate(String[] commandParts) {
-        if (commandParts.length == 2 && Checker.checkIntUpZero(commandParts[1])) {
-            id = Integer.parseInt(commandParts[1]);
+        if (commandParts.length == 1) {
+            dragon = CreatorOfDragons.create();
             return true;
-        } else {
-            return false;
-        }
+        }else{return false;}
     }
 }

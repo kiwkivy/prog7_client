@@ -1,8 +1,5 @@
 package exceptions;
 
-import client.Client;
-import commands.Exit;
-
 public class ServerIsUnavailableException extends RuntimeException{
     @Override
     public void printStackTrace(){

@@ -1,7 +1,6 @@
 package serializers;
 
 import com.google.gson.*;
-import data.Color;
 import data.Dragon;
 
 import java.lang.reflect.Type;

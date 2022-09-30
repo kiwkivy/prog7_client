@@ -30,7 +30,7 @@ public class Interpreter {
      * Метод, реализующий работу интерпретатора. Интерпретатор работает в двух режимах: консольном и скриптовом.
      */
 
-    public Command getCommand() {
+    public Command getCommand(String username, String password) {
         getListOfCommands();
         FileWorker worker = new FileWorker();
         String data = "";
@@ -58,6 +58,7 @@ public class Interpreter {
             try {
                 if (message.equals(command.getCommandType().getName())) {
                     command.getCommandType();
+                    command.setUser(username, password);
                     if(command.validate(commandParts)) {
                         if(command.getCommandType() == CommandType.EXIT){
                             Exit exit = new Exit();
@@ -92,7 +93,6 @@ public class Interpreter {
         listOfCommands.add(new FilterStartsWithName());
         listOfCommands.add(new Help());
         listOfCommands.add(new Info());
-        listOfCommands.add(new InsertAt());
         listOfCommands.add(new PrintFieldDescendingCave());
         listOfCommands.add(new RemoveById());
         listOfCommands.add(new RemoveLower());

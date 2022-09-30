@@ -7,6 +7,7 @@ package commands;
 public class Help extends Command{
     private CommandType commandType = CommandType.HELP;
 
+
     public CommandType getCommandType() {
         return commandType;
     }

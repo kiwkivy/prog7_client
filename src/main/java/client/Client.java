@@ -1,19 +1,18 @@
 package client;
 
-import commands.Add;
 import commands.Command;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import commands.CommandType;
-import commands.Exit;
+import commands.*;
 import data.*;
-import data.Color;
 import exceptions.*;
 import serializers.CaveSerializer;
 import serializers.CoordinatesSerializer;
 import serializers.DragonSerializer;
 import utils.Interpreter;
 
+import java.io.Console;
 import java.io.IOException;
 import java.net.*;
 import java.nio.ByteBuffer;
@@ -21,31 +20,35 @@ import java.nio.CharBuffer;
 import java.nio.channels.DatagramChannel;
 import java.nio.charset.StandardCharsets;
 import java.util.Date;
+import java.util.Scanner;
 import java.util.Timer;
 import java.util.TimerTask;
+
 
 public class Client {
     public static long sendTime;
     public static boolean sendTimeFlag;
+    public static boolean userIsLoggedIn = false;
     private static boolean workWithScript = false;
     public static int port = 4111;
 
     public static void main(String[] args){
+        String username = null;
+        String password = null;
         Thread checkTime = new Thread(() -> {
             Timer timer = new Timer();
             timer.schedule(new TimerTask() {
                 @Override
                 public void run() {
                     try {
-                        if (new Date().getTime() - sendTime > 1000 && sendTimeFlag && sendTime != -1) {
+                        if (new Date().getTime() - sendTime > 1000000 && sendTimeFlag && sendTime != -1) {
                             sendTimeFlag = false;
                             sendTime = -1;
                             throw new ServerIsUnavailableException();
                         }
                     }catch (ServerIsUnavailableException ex){
                         ex.printStackTrace();
-                        Exit exit = new Exit();
-                        exit.execute();
+                        System.exit(-2534);
                     }
                 }
             }, 250, 250);
@@ -65,12 +68,49 @@ public class Client {
                     InetSocketAddress receiveSocketAddress = new InetSocketAddress("localhost", port);
                     receiveChannel.bind(receiveSocketAddress);
                     bindFlag = false;
-                } catch (BindException ex){
+                } catch (BindException ex) {
                     port++;
                 }
 
+            Start start = new Start();
+            start.setPort(port);
+            Console console = System.console();
+            Scanner scanner = new Scanner(System.in);
+            String choice;
+            boolean normalChoice;
+            do {
+                System.out.println("Введите 1 для авторизации и 2 для регистрации");
+                System.out.print("Ваш выбор:");
+                choice = scanner.nextLine();
+                if (choice.equals("1")) {
+                    start.setRegisterFlag(false);
+                } else if (choice.equals("2")) {
+                    start.setRegisterFlag(true);
+                }else {
+                    System.out.println("Такого выбор нет.");
+                }
+                System.out.println();
+            }while (!(choice.equals("1") | choice.equals("2")));
+            while (!userIsLoggedIn) {
+                    System.out.print("Введите логин:");
+                    username = scanner.nextLine();
+                    System.out.print("Введите пароль:");
+                    if (console != null) {
+                        char[] pass = console.readPassword();
+                        if (pass == null) continue;
+                        password = String.valueOf(pass);
+                    }else {
+                        password = scanner.nextLine();
+                    }
+                    start.setUser(username, password);
+                    sendMessage(sendChannel, start);
+                    receiveMessage(receiveChannel);
+                    System.out.println();
+
+            }
+
             while (true) {
-                Command command = interpreter.getCommand();
+                Command command = interpreter.getCommand(username, password);
                 if (command != null) {
                     command.setPort(port);
                     sendMessage(sendChannel, command);
@@ -81,14 +121,6 @@ public class Client {
                 } else {
                     System.out.println("Команда введена неверно. Для получения справки введите help");
                 }
-                Coordinates coordinates = new Coordinates();
-                coordinates.setX(2314L);
-                coordinates.setY(23423D);
-                DragonCave cave = new DragonCave();
-                cave.setDepth(324532L);
-                cave.setNumberOfTreasures(3453D);
-                Dragon dragon = new Dragon("Рогалик", coordinates, 5464, Color.GREEN, DragonType.FIRE, DragonCharacter.CHAOTIC_EVIL, cave);
-                Add add = new Add(dragon);
             }
             }catch(IOException ex){
                 ex.printStackTrace();
@@ -107,11 +139,16 @@ public class Client {
                 buffer.get(bytes); //получили массив битов
                 message = new String(bytes);
                 sendTimeFlag = false;
-                System.out.println(message.replace("\\n", "\n").replace("={", "(").replace("},", ")").replace("\"","")
-                        .replace("{","").replace("}", ""));
+                System.out.println(message.replace("\\n", "\n").replace("={", "(").replace("},", ")")
+                        .replace("}", ")")
+                        .replace("\"","")
+                        .replace("}", ""));
                 if (message.equals("\"Возврат в обычный режим.\"")){
                     System.out.println();
                     workWithScript = false;
+                }
+                if (message.equals("Авторизация прошла успешно.") | message.equals("Регистрация прошла успешно.") ){
+                    userIsLoggedIn = true;
                 }
             } catch (IOException ex) {
             }
